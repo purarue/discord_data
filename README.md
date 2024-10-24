@@ -96,4 +96,4 @@ for msg in merge_messages(export_dir="./discord"):
     print(msg.content)
 ```
 
-Created to be used as part of [`HPI`](https://github.com/seanbreckenridge/HPI)
+Created to be used as part of [`HPI`](https://github.com/purarue/HPI)
