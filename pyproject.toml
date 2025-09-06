@@ -46,9 +46,5 @@ warn_redundant_casts = "True"
 warn_return_any = "True"
 warn_unreachable = "True"
 
-[tool.pytest.ini_options]
-addopts = []
-
 [tool.setuptools.packages.find]
 include = ["discord_data"]
-exclude = []
