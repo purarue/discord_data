@@ -8,7 +8,7 @@ This supports both the old CSV and new JSON formats for messages.
 
 ### Install:
 
-Requires `python3.8+`. To install with pip, run:
+Requires `python3.9+`. To install with pip, run:
 
     pip install discord_data
 
