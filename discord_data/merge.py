@@ -34,7 +34,8 @@ def _list_exports(
         if paths is not None:
             for p in map(expand_path, paths):
                 if not p.name == folder_name:
-                    logger.debug(f"Expected {p} to end with {folder_name}...")
+                    if logger:
+                        logger.debug(f"Expected {p} to end with {folder_name}...")
                 exports.append(p)
         else:
             if export_dir is None:
@@ -47,9 +48,10 @@ def _list_exports(
                 if fdir.exists():
                     exports.append(fdir)
                 else:
-                    logger.debug(
-                        f"Directory not found: Expected {folder_name} directory at {fdir}"
-                    )
+                    if logger:
+                        logger.debug(
+                            f"Directory not found: Expected {folder_name} directory at {fdir}"
+                        )
     return exports
 
 
