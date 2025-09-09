@@ -60,7 +60,7 @@ def merge_raw_activity(
     logger: Optional[logging.Logger] = None,
 ) -> Iterator[Json]:
     emitted: Set[str] = set()
-    for p in _list_exports(ACTIVITY_DIRS, export_dir, paths):
+    for p in _list_exports(ACTIVITY_DIRS, export_dir, paths, logger=logger):
         for blob in parse_raw_activity(p, logger=logger):
             key: str = blob["event_id"]
             if key in emitted:
@@ -86,9 +86,10 @@ def merge_messages(
     *,
     export_dir: Optional[PathIsh] = None,
     paths: Optional[Sequence[PathIsh]] = None,
+    logger: Optional[logging.Logger] = None,
 ) -> Iterator[Res[Message]]:
     emitted: Set[int] = set()
-    for p in _list_exports(MESSAGES_DIRS, export_dir, paths):
+    for p in _list_exports(MESSAGES_DIRS, export_dir, paths, logger=logger):
         for msg in parse_messages(p):
             if isinstance(msg, Exception):
                 yield msg
