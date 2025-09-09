@@ -1,11 +1,11 @@
 import json
 
 from datetime import datetime
-from typing import NamedTuple, Optional, Dict, Any, cast
+from typing import NamedTuple, Optional, Any, cast
 
 URL_BASE = "https://discord.com"
 
-Json = Dict[str, Any]
+Json = dict[str, Any]
 
 
 class Server(NamedTuple):
@@ -92,11 +92,11 @@ class Activity(NamedTuple):
     json_data_str: Optional[str]
 
     @property
-    def json_data(self) -> Dict[str, str]:
+    def json_data(self) -> dict[str, str]:
         if self.json_data_str is None:
             return {}
         else:
-            return cast(Dict[str, str], json.loads(self.json_data_str))
+            return cast(dict[str, str], json.loads(self.json_data_str))
 
 
 def _default(o: Any) -> Any:

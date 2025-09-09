@@ -4,7 +4,8 @@ import logging
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterator, Optional, Dict, List, Any, Union
+from typing import Optional, Any, Union
+from collections.abc import Iterator
 
 
 from .model import Message, Channel, Json, Activity, RegionInfo, Fingerprint, Server
@@ -58,10 +59,10 @@ def parse_messages(messages_dir: PathIsh) -> Iterator[Res[Message]]:
     if not index_f.exists():
         yield RuntimeError(f"Message index 'index.json' doesn't exist at {index_f}")
         return
-    index: Dict[str, Optional[str]] = json.loads(index_f.read_text())
+    index: dict[str, Optional[str]] = json.loads(index_f.read_text())
 
     # get individual message directories
-    msg_dirs: List[Path] = list(
+    msg_dirs: list[Path] = list(
         filter(lambda d: d.is_dir() and not d.name.startswith("."), pmsg_dir.iterdir())
     )
     for msg_chan in msg_dirs:
@@ -72,7 +73,7 @@ def parse_messages(messages_dir: PathIsh) -> Iterator[Res[Message]]:
                 f"Channel info 'channel.json' doesn't exist at {channel_info_f}"
             )
             continue
-        channel_json: Dict[str, Any] = json.loads(channel_info_f.read_text())
+        channel_json: dict[str, Any] = json.loads(channel_info_f.read_text())
 
         # optionally, find server information
         server_info: Optional[Server] = None
@@ -127,7 +128,7 @@ def parse_messages(messages_dir: PathIsh) -> Iterator[Res[Message]]:
                 continue
 
             # read JSON file to get messages
-            messages_json: List[Dict[str, Any]] = json.loads(json_file.read_text())
+            messages_json: list[dict[str, Any]] = json.loads(json_file.read_text())
 
             for msg in messages_json:
                 try:
@@ -153,7 +154,7 @@ def _parse_activity_blob(blob: Json) -> Activity:
         )
     except KeyError:
         pass
-    json_data: Dict[str, Union[str, None]] = {}
+    json_data: dict[str, Union[str, None]] = {}
     event_type = blob["event_type"]
     if event_type == "launch_game":
         json_data["game"] = blob.get("game")
@@ -164,7 +165,7 @@ def _parse_activity_blob(blob: Json) -> Activity:
         json_data["game"] = blob.get("game")
     elif event_type == "application_opened":
         json_data["application"] = blob.get("application_name")
-    json_clean: Dict[str, str] = {k: v for k, v in json_data.items() if v is not None}
+    json_clean: dict[str, str] = {k: v for k, v in json_data.items() if v is not None}
     return Activity(
         event_id=blob["event_id"],
         event_type=event_type,
