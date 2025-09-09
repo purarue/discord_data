@@ -41,7 +41,7 @@ def main(data_directory: str, interactive: bool, output: str) -> None:
             break
     if message_dir is None:
         click.echo(
-            f"Expected message dir to exist at in {dd} at one of {MESSAGES_DIRS}, could not find it",
+            f"Expected message dir to exist in {dd} at one of {MESSAGES_DIRS}, could not find it",
             err=True,
         )
         sys.exit(2)
@@ -52,7 +52,7 @@ def main(data_directory: str, interactive: bool, output: str) -> None:
             break
     if activity_dir is None:
         click.echo(
-            f"Expected activity dir to exist at in {dd} at one of {ACTIVITY_DIRS}, could not find it",
+            f"Expected activity dir to exist in {dd} at one of {ACTIVITY_DIRS}, could not find it",
             err=True,
         )
         sys.exit(2)
