@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
-from typing import Set, Optional, Iterator, List, Sequence, Union
+from typing import Optional, Union
+from collections.abc import Iterator, Sequence
 
 from .model import Json, Message, Activity
 from .error import Res
@@ -19,17 +20,17 @@ ACTIVITY_DIRS = ["activity", "Activity"]
 # or a list of paths
 def _list_exports(
     # messages or activity, one or more paths to match
-    search_for_folder: Union[str, List[str]],
+    search_for_folder: Union[str, list[str]],
     export_dir: Optional[PathIsh] = None,
     paths: Optional[Sequence[PathIsh]] = None,
     logger: Optional[logging.Logger] = None,
-) -> List[Path]:
+) -> list[Path]:
     sfolders = (
         [search_for_folder] if isinstance(search_for_folder, str) else search_for_folder
     )
     assert isinstance(sfolders, list) and len(sfolders) > 0
 
-    exports: List[Path] = []
+    exports: list[Path] = []
     for folder_name in sfolders:
         if paths is not None:
             for p in map(expand_path, paths):
@@ -61,7 +62,7 @@ def merge_raw_activity(
     paths: Optional[Sequence[PathIsh]] = None,
     logger: Optional[logging.Logger] = None,
 ) -> Iterator[Json]:
-    emitted: Set[str] = set()
+    emitted: set[str] = set()
     for p in _list_exports(ACTIVITY_DIRS, export_dir, paths, logger=logger):
         for blob in parse_raw_activity(p, logger=logger):
             key: str = blob["event_id"]
@@ -90,7 +91,7 @@ def merge_messages(
     paths: Optional[Sequence[PathIsh]] = None,
     logger: Optional[logging.Logger] = None,
 ) -> Iterator[Res[Message]]:
-    emitted: Set[int] = set()
+    emitted: set[int] = set()
     for p in _list_exports(MESSAGES_DIRS, export_dir, paths, logger=logger):
         for msg in parse_messages(p):
             if isinstance(msg, Exception):
