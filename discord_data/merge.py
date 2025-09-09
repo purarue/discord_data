@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-from typing import Set, Optional, Iterator, List, Sequence
+from typing import Set, Optional, Iterator, List, Sequence, Union
 
 from .model import Json, Message, Activity
 from .error import Res
@@ -18,9 +18,8 @@ ACTIVITY_DIRS = ["activity", "Activity"]
 # handles resolving the paths from the top-level export_dir
 # or a list of paths
 def _list_exports(
-    search_for_folder: (
-        str | List[str]
-    ),  # messages or activity, one or more paths to match
+    # messages or activity, one or more paths to match
+    search_for_folder: Union[str, List[str]],
     export_dir: Optional[PathIsh] = None,
     paths: Optional[Sequence[PathIsh]] = None,
     logger: Optional[logging.Logger] = None,
