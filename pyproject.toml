@@ -1,6 +1,6 @@
 [project]
 name = "discord_data"
-version = "0.2.2"
+version = "0.2.3"
 description = "Library to parse the Discord GDPR export"
 readme = "README.md"
 license = "MIT"
