@@ -1,9 +1,11 @@
 import sys
+from typing import Optional
 from pathlib import Path
 
 import click
 
 from .parse import parse_activity, parse_messages
+from .merge import MESSAGES_DIRS, ACTIVITY_DIRS
 
 
 @click.command()
@@ -30,13 +32,29 @@ def main(data_directory: str, interactive: bool, output: str) -> None:
     Utility command to test parsing a data directory
     """
     dd = Path(data_directory)
-    message_dir = dd / "messages"
-    activity_dir = dd / "activity"
-    if not message_dir.exists():
-        click.echo(f"Expected message dir to exist at {message_dir}", err=True)
+    message_dir: Optional[Path] = None
+    activity_dir: Optional[Path] = None
+    for mdir in MESSAGES_DIRS:
+        md = dd / mdir
+        if md.exists():
+            message_dir = md
+            break
+    if message_dir is None:
+        click.echo(
+            f"Expected message dir to exist in {dd} at one of {MESSAGES_DIRS}, could not find it",
+            err=True,
+        )
         sys.exit(2)
-    if not activity_dir.exists():
-        click.echo(f"Expected activity dir to exist at {activity_dir}", err=True)
+    for adir in ACTIVITY_DIRS:
+        ad = dd / adir
+        if ad.exists():
+            activity_dir = ad
+            break
+    if activity_dir is None:
+        click.echo(
+            f"Expected activity dir to exist in {dd} at one of {ACTIVITY_DIRS}, could not find it",
+            err=True,
+        )
         sys.exit(2)
 
     click.echo("Parsing messages...", err=True)

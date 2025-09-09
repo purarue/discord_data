@@ -13,9 +13,15 @@ from .error import Res
 
 
 def _get_self_user_id(export_root_dir: PathIsh) -> str:
-    user_info_f: Path = expand_path(export_root_dir) / "account" / "user.json"
-    assert user_info_f.exists()
-    user_json = json.loads(user_info_f.read_text())
+    base = expand_path(export_root_dir)
+    user_info_f: list[Path] = [
+        base / acc_name / "user.json" for acc_name in ["account", "Account"]
+    ]
+    found_l = [f for f in user_info_f if f.exists()]
+    if not found_l:
+        raise RuntimeError(f"Could not find user.json in any of {user_info_f}")
+    found = found_l[0]
+    user_json = json.loads(found.read_text())
     return str(user_json["id"])
 
 
