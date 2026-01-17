@@ -15,8 +15,8 @@ class Server(NamedTuple):
 
 class Channel(NamedTuple):
     channel_id: int
-    name: Optional[str]
-    server: Optional[Server]  # if this is a guild (server), the server id/name
+    name: str | None
+    server: Server | None  # if this is a guild (server), the server id/name
 
     @property
     def description(self) -> str:
@@ -61,21 +61,21 @@ class RegionInfo(NamedTuple):
     time_zone: str
 
 
-def _strip_quotes(o: Optional[str]) -> Optional[str]:
+def _strip_quotes(o: str | None) -> str | None:
     if o:
         return o.strip('"')
     return o
 
 
 class Fingerprint(NamedTuple):
-    os: Optional[str]
-    os_version: Optional[str]
-    browser: Optional[str]
-    browser_user_agent: Optional[str]
-    ip: Optional[str]
-    isp: Optional[str]
-    device: Optional[str]
-    distro: Optional[str]
+    os: str | None
+    os_version: str | None
+    browser: str | None
+    browser_user_agent: str | None
+    ip: str | None
+    isp: str | None
+    device: str | None
+    distro: str | None
 
     @classmethod
     def make(cls, blob: Json) -> "Fingerprint":
@@ -85,11 +85,11 @@ class Fingerprint(NamedTuple):
 class Activity(NamedTuple):
     event_id: str
     event_type: str
-    region_info: Optional[RegionInfo]
+    region_info: RegionInfo | None
     # additional data that doesn't conform to this spec
     fingerprint: Fingerprint
     timestamp: datetime
-    json_data_str: Optional[str]
+    json_data_str: str | None
 
     @property
     def json_data(self) -> dict[str, str]:

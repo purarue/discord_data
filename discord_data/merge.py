@@ -20,10 +20,10 @@ ACTIVITY_DIRS = ["activity", "Activity"]
 # or a list of paths
 def _list_exports(
     # messages or activity, one or more paths to match
-    search_for_folder: Union[str, list[str]],
-    export_dir: Optional[PathIsh] = None,
-    paths: Optional[Sequence[PathIsh]] = None,
-    logger: Optional[logging.Logger] = None,
+    search_for_folder: str | list[str],
+    export_dir: PathIsh | None = None,
+    paths: Sequence[PathIsh] | None = None,
+    logger: logging.Logger | None = None,
 ) -> list[Path]:
     sfolders = (
         [search_for_folder] if isinstance(search_for_folder, str) else search_for_folder
@@ -58,9 +58,9 @@ def _list_exports(
 
 def merge_raw_activity(
     *,
-    export_dir: Optional[PathIsh] = None,
-    paths: Optional[Sequence[PathIsh]] = None,
-    logger: Optional[logging.Logger] = None,
+    export_dir: PathIsh | None = None,
+    paths: Sequence[PathIsh] | None = None,
+    logger: logging.Logger | None = None,
 ) -> Iterator[Json]:
     emitted: set[str] = set()
     for p in _list_exports(ACTIVITY_DIRS, export_dir, paths, logger=logger):
@@ -74,9 +74,9 @@ def merge_raw_activity(
 
 def merge_activity(
     *,
-    export_dir: Optional[PathIsh] = None,
-    paths: Optional[Sequence[PathIsh]] = None,
-    logger: Optional[logging.Logger] = None,
+    export_dir: PathIsh | None = None,
+    paths: Sequence[PathIsh] | None = None,
+    logger: logging.Logger | None = None,
 ) -> Iterator[Res[Activity]]:
     for rawact in merge_raw_activity(export_dir=export_dir, paths=paths, logger=logger):
         try:
@@ -87,9 +87,9 @@ def merge_activity(
 
 def merge_messages(
     *,
-    export_dir: Optional[PathIsh] = None,
-    paths: Optional[Sequence[PathIsh]] = None,
-    logger: Optional[logging.Logger] = None,
+    export_dir: PathIsh | None = None,
+    paths: Sequence[PathIsh] | None = None,
+    logger: logging.Logger | None = None,
 ) -> Iterator[Res[Message]]:
     emitted: set[int] = set()
     for p in _list_exports(MESSAGES_DIRS, export_dir, paths, logger=logger):

@@ -59,7 +59,7 @@ def parse_messages(messages_dir: PathIsh) -> Iterator[Res[Message]]:
     if not index_f.exists():
         yield RuntimeError(f"Message index 'index.json' doesn't exist at {index_f}")
         return
-    index: dict[str, Optional[str]] = json.loads(index_f.read_text())
+    index: dict[str, str | None] = json.loads(index_f.read_text())
 
     # get individual message directories
     msg_dirs: list[Path] = list(
@@ -76,7 +76,7 @@ def parse_messages(messages_dir: PathIsh) -> Iterator[Res[Message]]:
         channel_json: dict[str, Any] = json.loads(channel_info_f.read_text())
 
         # optionally, find server information
-        server_info: Optional[Server] = None
+        server_info: Server | None = None
 
         # if the channel.json included guild (server) info
         if (
@@ -89,7 +89,7 @@ def parse_messages(messages_dir: PathIsh) -> Iterator[Res[Message]]:
                 name=channel_json["guild"]["name"],
             )
 
-        channel_name: Optional[str] = index.get(channel_json["id"])
+        channel_name: str | None = index.get(channel_json["id"])
 
         if "id" not in channel_json:
             yield RuntimeError(f"Channel id not found in {channel_info_f}")
@@ -154,7 +154,7 @@ def _parse_activity_blob(blob: Json) -> Activity:
         )
     except KeyError:
         pass
-    json_data: dict[str, Union[str, None]] = {}
+    json_data: dict[str, str | None] = {}
     event_type = blob["event_type"]
     if event_type == "launch_game":
         json_data["game"] = blob.get("game")
@@ -177,7 +177,7 @@ def _parse_activity_blob(blob: Json) -> Activity:
 
 
 def parse_activity(
-    events_dir: PathIsh, logger: Optional[logging.Logger] = None
+    events_dir: PathIsh, logger: logging.Logger | None = None
 ) -> Iterator[Res[Activity]]:
     """
     Return useful fields from the JSON blobs
@@ -195,7 +195,7 @@ def parse_activity(
 
 
 def parse_raw_activity(
-    events_dir: PathIsh, logger: Optional[logging.Logger] = None
+    events_dir: PathIsh, logger: logging.Logger | None = None
 ) -> Iterator[Json]:
     """
     Return all the objects from the activity directory, as

@@ -32,8 +32,8 @@ def main(data_directory: str, interactive: bool, output: str) -> None:
     Utility command to test parsing a data directory
     """
     dd = Path(data_directory)
-    message_dir: Optional[Path] = None
-    activity_dir: Optional[Path] = None
+    message_dir: Path | None = None
+    activity_dir: Path | None = None
     for mdir in MESSAGES_DIRS:
         md = dd / mdir
         if md.exists():
