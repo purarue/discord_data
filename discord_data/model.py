@@ -1,7 +1,7 @@
 import json
 
 from datetime import datetime
-from typing import NamedTuple, Optional, Any, cast
+from typing import NamedTuple, Any, cast
 
 URL_BASE = "https://discord.com"
 

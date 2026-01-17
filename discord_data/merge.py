@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from typing import Optional, Union
 from collections.abc import Iterator, Sequence
 
 from .model import Json, Message, Activity

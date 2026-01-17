@@ -4,7 +4,7 @@ import logging
 
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Optional, Any, Union
+from typing import Any
 from collections.abc import Iterator
 
 
