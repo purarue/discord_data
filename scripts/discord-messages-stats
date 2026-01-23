@@ -55,6 +55,12 @@ def yearly() -> None:
 
 
 @main.command()
+def monthly() -> None:
+    cc = dict(Counter([ts.month for ts in _timestamps()]))
+    _plot(cc, title="Active Months")
+
+
+@main.command()
 def averages() -> None:
     ts = _timestamps()
     assert len(ts) > 1
@@ -67,8 +73,6 @@ def averages() -> None:
 
     def r(d: float) -> str:
         return str(round(d, 3))
-
-    breakpoint()
 
     # You send an average of 255 messages per day, 1790 messages per week, 7671 messages per month, and 93338 messages per year.
     print(
