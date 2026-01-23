@@ -2,10 +2,8 @@
 # /// script
 # requires-python = ">=3.14"
 # dependencies = [
-#     "cachew>=0.22.20251013",
-#     "colorlog>=6.10.1",
 #     "discord-data>=0.2.3",
-#     "hpi>=0.7.20250911",
+#     "hpi[optional]>=0.7.20250911",
 #     "hpi-purarue>=0.1.0",
 #     "matplotlib>=3.10.8",
 #     "urlextract>=1.9.0",
